@@ -1,65 +1,50 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from './reduxStore.js';
 
-// Login component receives an onClose function as a prop.
-function Login({ onClose }) {
-    const [username, setUsername] = useState(''); // State for storing username
-    const [password, setPassword] = useState(''); // State for storing password
-    const [error, setError] = useState(''); // State for storing any error messages
+function Login() {
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-    // Asynchronous function to handle the login process
-    const handleLogin = async () => {
-        try {
-            // Make an HTTP POST request to your login endpoint
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password, // Sending plain password (make sure your connection is secure)
-                }),
-            });
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('/api/login', {
+        username: username,
+        password: password,
+      });
+      
+      if (response.data.success) {
+        dispatch(login(response.data.user));
+      } else {
+        setError(response.data.message || 'Login failed.');
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
+    }
+  };
 
-            const data = await response.json(); // Parsing response to JSON
-
-            if (response.ok) {
-                // Successful login (HTTP 200)
-                // Here you might want to do more things, like setting JWT tokens
-                onClose(); // Close the login form/modal
-            } else {
-                // Failed login
-                setError(data.message || 'Login failed.');
-            }
-        } catch (error) {
-            // Catch any network errors and update the state
-            setError('An error occurred. Please try again.');
-        }
-    };
-
-    return (
-        <div>
-            <h2>Login</h2>
-            {/* Display error messages if any */}
-            {error && <p>{error}</p>}
-            <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                // Update username state when input changes
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                // Update password state when input changes
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            {/* Trigger handleLogin function when button is clicked */}
-            <button onClick={handleLogin}>Login</button>
-        </div>
-    );
+  return (
+    <div>
+      <h2>Login</h2>
+      {error && <p>{error}</p>}
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleLogin}>Login</button>
+    </div>
+  );
 }
 
 export default Login;

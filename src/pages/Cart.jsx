@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios or use fetch for making API calls
+import axios from 'axios';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]); // Store cart items

@@ -3,6 +3,7 @@ import { DataTypes, Model } from 'sequelize';
 import connectToDB from './db.js';
 import url from 'url';
 import util from 'util';
+import bcrypt from 'bcrypt';
 
 // Fetching or setting a default Database URI
 const dbURI = process.env.DATABASE_URL || 'dbConnected';
@@ -23,21 +24,23 @@ User.init({
     allowNull: false,
     primaryKey: true,
   },
-  email_Id: {
+  username: {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  first_Name: {
-    type: DataTypes.STRING(15),
+  password: {
+    type: DataTypes.STRING,
     allowNull: false,
-  },
-  last_Name: {
-    type: DataTypes.STRING(15),
-    allowNull: false,
-  },
+  }
 }, {
-  modelName: 'users', // Model name in the database
-  sequelize: db,      // Database instance
+  modelName: 'users',
+  sequelize: db,
+  hooks: {
+    beforeCreate: async (user) => {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+    }
+  }
 });
 
 // Defining the Item Model

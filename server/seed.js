@@ -1,8 +1,6 @@
-// Import the Item and User models from model.js
-import { Item, User } from './model.js';
+import { User, Item } from './model.js';
 
-// Define an asynchronous function to seed the database
-async function seedDatabase() {
+export async function seedDatabase() {
 
   // Create a new Item 'Gumbo Tee' and assign it to variable gumboTee
   const gumboTee = await Item.create({
@@ -31,9 +29,8 @@ async function seedDatabase() {
   // Create a new User 'Tyler Jerman' and assign it to variable tylerJ
   const tylerJ = await User.create({
     user_Id: 1,
-    email_Id: 'tyler.s.jerman@gmail.com',
-    first_Name: 'Tyler',
-    last_Name: 'Jerman'
+    username: 'tylerjerman',
+    password: 'jylerterman'
   });
 
   // Find the User with user_Id of 1 and assign it to variable admin
@@ -50,5 +47,5 @@ seedDatabase().then(results => {
   console.error("Error seeding database:", error); // Log error message
 });
 
-// Export the variables to make them available in other parts of your application
+// Exports
 export { gumboTee, gumboHat, gumboShorts, tylerJ, admin };

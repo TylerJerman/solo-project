@@ -1,20 +1,18 @@
 // Import packages
 import express from 'express';
-import morgan from 'morgan';
-import ViteExpress from 'viteExpress';
-import { Cart, Item, User, EmailSignup } from './model.js';
+import { db } from './db.js';
+import { User, Item, Cart } from './model.js';
 import bcrypt from 'bcrypt';
+import morgan from 'morgan';
 
 // Set up app instance
 const app = express();
 const port = 5173;
-let myId = 1;
 
 // Middleware
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-ViteExpress.config({printViteDevServerHost: true});
+app.use(express.urlencoded({ extended: false }));
 
 // Logging middleware for debugging
 app.use((req, res, next) => {
@@ -58,60 +56,42 @@ app.get('/api/users', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch users.' });
   }
 });
-//login
+// Registration
 app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10); // hashing the password
   try {
-      const { username, password } = req.body;
-
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Save the user to the database with the hashed password
-      const newUser = new User({ username, password: hashedPassword });
-      await newUser.save();
-
-      res.status(201).send({ message: "User registered successfully!" });
+    const newUser = await User.create({ username, password: hashedPassword });
+    res.status(201).json({ message: "User registered successfully!" });
   } catch (error) {
-      res.status(500).send({ error: "Failed to register user." });
+    res.status(500).json({ error: "Failed to register user." });
   }
 });
 
-//password checker
+// Login
 app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
   try {
-      const { username, password } = req.body;
+    const user = await User.findOne({ where: { username } });
 
-      // Find the user in the database
-      const user = await User.findOne({ username });
+    if (!user) return res.status(400).json({ error: "Invalid username or password." });
 
-      if (!user) {
-          return res.status(400).send({ error: "Invalid username or password." });
-      }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-      // Compare the provided password with the stored hashed password
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return res.status(400).json({ error: "Invalid username or password." });
 
-      if (!isPasswordValid) {
-          return res.status(400).send({ error: "Invalid username or password." });
-      }
-
-      // Here you'd typically issue a token or start a session for the logged-in user
-      res.status(200).send({ message: "Logged in successfully!" });
+    res.status(200).json({ message: "Logged in successfully!" });
   } catch (error) {
-      res.status(500).send({ error: "Failed to log in." });
+    res.status(500).json({ error: "Failed to log in." });
   }
 });
 
-//this route is gonna handle the user creation
+// User Creation
 app.post('/api/users', express.json(), async (req, res) => {
-  const { email, firstName, lastName } = req.body;
+  const { username, password } = req.body;
   
   try {
-    const newUser = await User.create({ 
-      email_Id: email, 
-      first_Name: firstName, 
-      last_Name: lastName 
-    });
+    const newUser = await User.create({ username, password });
     res.json(newUser);
   } catch (error) {
     console.error("Error creating user:", error);
@@ -156,8 +136,9 @@ app.use(express.static('public'));
 //error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send('Something has fetching broken why why why why why why why why why why why why why why why why why why why');
 });
 
-//start server
-ViteExpress.listen(app, port, () => console.log(`All the homies meeting at http:/localhost:${port}`));
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});

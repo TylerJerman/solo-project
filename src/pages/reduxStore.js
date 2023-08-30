@@ -1,6 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-
 // User slice
 const userSlice = createSlice({
   name: 'user',
@@ -24,25 +23,25 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const itemIndex = state.findIndex(
-        (item) => item.Item_Id === action.payload.Item_Id
+        (item) => item.item_Id === action.payload.item_Id
       );
 
       if (itemIndex >= 0) {
-        state[itemIndex].amount += 1;  // Increase the amount of the existing item.
+        state[itemIndex].amount += 1;  // Increase the amount
       } else {
-        state.push({ ...action.payload, amount: 1 });  // Add the new item with amount 1.
+        state.push({ ...action.payload, amount: 1 });  // Add the new item with amount 1
       }
     },
     removeFromCart: (state, action) => {
-      return state.filter(item => item.Item_Id !== action.payload.Item_Id);
+      return state.filter(item => item.item_Id !== action.payload.item_Id);
     },
     decrementItem: (state, action) => {
       const itemIndex = state.findIndex(
-        (item) => item.Item_Id === action.payload.Item_Id
+        (item) => item.Item_Id === action.payload.item_Id
       );
 
       if (itemIndex >= 0) {
-        state[itemIndex].amount -= 1;  // Decrease the amount.
+        state[itemIndex].amount -= 1;  // Decrease the amount
       }
     },
     clearCart: (state) => {
@@ -87,7 +86,7 @@ export const store = configureStore({
 });
 
 // Exporting user actions and selector
-export const { login, logout } = userSlice.actions;
+export const { login, logout } = userSlice.actions; // export actions
 export const selectUser = (state) => state.user.value;
 
 // Exporting cart actions and selector
