@@ -38,7 +38,6 @@ app.get('/api/products', async (req, res) => {
 
 app.post('/api/cart/items', async (req, res) => {
   const {id} = req.body
-  console.log("im trying")
   console.log(id)
   try {
     const cartItems = await  Item.findOne({ where: { item_Id: id}})
@@ -116,7 +115,7 @@ app.post('/api/users', express.json(), async (req, res) => {
 app.post('/api/cart', async (req, res) => {
   const { userId, productId } = req.body;
 
-  console.log('Yayuh')
+  console.log("yeayuhhhhhhhhhh")
   
   if (!userId || !productId) {
     return res.status(400).json({ error: 'Missing the needed fields.' });

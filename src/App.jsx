@@ -12,8 +12,8 @@ function App() {
   return (
     <BrowserRouter>
       <ol>
-        <button><Link to="/">Home</Link></button>
-        <button><Link to="/checkout">Checkout</Link></button>
+        <button><Link to="/"><img src="https://cdn-icons-png.flaticon.com/128/263/263115.png"></img></Link></button>
+        <button><Link to="/checkout"><img src="https://cdn-icons-png.flaticon.com/128/3737/3737372.png"></img></Link></button>
         {!isLoggedIn && <button onClick={() => setShowLogin(true)}>Login</button>}
       </ol>
       <Routes>

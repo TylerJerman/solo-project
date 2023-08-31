@@ -9,7 +9,7 @@ div {
   cursor: pointer;
   min-width: 90%;
   min-height: 320px;
-  background-color: #f2f2f2;
+  background-color: #d1d1d1;
 }
 
 body {
@@ -20,7 +20,7 @@ body {
   padding: 0;
 }
 
-.popup {
+/* .popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -38,14 +38,15 @@ body {
   border-radius: 15px;
   max-width: 400px;
   width: 100%;
-}
+} */
 
 button {
   padding: 12px 24px;
   border-radius: 12px;
   border: none;
-  background-color: #000000;
-  color: #eee;
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
   cursor: pointer;
   font-size: 16px;
 }
@@ -54,8 +55,8 @@ button:hover {
   background-color: #ffffff;
 }
 
-header, footer {
-  background-color: #ffffff;
+header {
+  background-color: #000000;
   color: #ddd;
   text-align: center;
   padding: 1em;
@@ -83,13 +84,16 @@ ol button {
 }
 
 footer {
-  background-color: #ffffff;
+  background-color: #d1d1d1;
+  border-color: #000000;
   color: white;
+  border-width: 1em;
   text-align: center;
   padding: 1em;
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 75px;
+  border-radius: 12px;
 }
 
 footer a {
@@ -97,6 +101,27 @@ footer a {
 }
 
 footer img {
-  width: 24px;
+  width: 50px;
   height: auto;
+}
+
+th {
+  align-content: center;
+  text-align: center;
+}
+
+tr {
+  align-content: center;
+  text-align: center;
+}
+
+input {
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
+  cursor: pointer;
+  font-size: 16px;
 }

@@ -21,7 +21,7 @@ export function LoginComponent() {
     <div>
       <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
       <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Log In</button>
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 }
@@ -53,14 +53,14 @@ export function Products() {
   return (
     <div>
       <h1>Product List</h1>
-      <ul>
+      <th>
         {products.map((product) => (
-          <li key={product.item_Id}>
+          <tr key={product.item_Id}>
             {product.item_Name} - ${product.price}
             <button onClick={() => addToCart(product.item_Id)}>add to cart</button>
-          </li>
+          </tr>
         ))}
-      </ul>
+      </th>
     </div>
   );
 }
@@ -132,13 +132,13 @@ export function Checkout() {
       <h1>Shopping Cart</h1>
       <button onClick={getCart}>show cart items</button>
       { myCart.length > 1 &&
-        <ul>
+        <th>
           {myCart.map((item) => (
-            <li>
+            <tr>
             {item.item_Name} - ${item.price}
-            </li>
+            </tr>
           ))}
-        </ul>
+        </th>
       }
       <h2>Checkout</h2>
       { finalPrice > 0 &&
