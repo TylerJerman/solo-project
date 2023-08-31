@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios'; // Import axios for making API calls
 
 function Checkout() {
   const [cartItems, setCartItems] = useState([]); // Store cart items
 
-  useEffect(() => {
-    // Fetch cart items from the backend
-    async function fetchCartItems() {
-      try {
-        const response = await axios.get('/api/cart'); // Replace this with your actual API endpoint
-        setCartItems(response.data); // Update the cart items in the state
-      } catch (error) {
-        console.error("Error fetching cart items:", error);
-      }
-    }
+  // useEffect(() => {
+  //   // Fetch cart items from the backend
+  //   async function fetchCartItems() {
+  //     try {
+  //       const response = await axios.get('/api/cart'); // Replace this with your actual API endpoint
+  //       setCartItems(response.data); // Update the cart items in the state
+  //     } catch (error) {
+  //       console.error("Error fetching cart items:", error);
+  //     }
+  //   }
 
-    fetchCartItems();
-  }, []);
+  //   fetchCartItems();
+  // }, []);
+
+  let {response} = axios.get(`/api/cart/${1}`)
+  console.log(response)
 
   // Function to calculate the total price of items in the cart
   const calculateTotal = () => {
@@ -42,7 +45,7 @@ function Checkout() {
               <td>{item.productName}</td>
               <td>${item.price.toFixed(2)}</td>
               <td>{item.quantity}</td>
-              
+
               <td>${(item.price * item.quantity).toFixed(2)}</td>
             </tr>
           ))}

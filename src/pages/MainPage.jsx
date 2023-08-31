@@ -44,6 +44,12 @@ export function Products() {
 
   const products = useSelector(selectProducts);
 
+  const addToCart = async (item_Id) => {
+    console.log(item_Id)
+    let details = {userId: 1, productId: item_Id}
+    let {response} = await axios.post('/api/cart', details)
+  }
+
   return (
     <div>
       <h1>Product List</h1>
@@ -51,6 +57,7 @@ export function Products() {
         {products.map((product) => (
           <li key={product.item_Id}>
             {product.item_Name} - ${product.price}
+            <button onClick={() => addToCart(product.item_Id)}>add to cart</button>
           </li>
         ))}
       </ul>
@@ -77,9 +84,15 @@ export function Home() {
   );
 }
 
+let cartItems = []
+
+
 export function Checkout() {
   const dispatch = useDispatch();
   const cart = useSelector(selectCart);
+  const [myCart, setMyCart] = useState([])
+  let price = 0
+  const [finalPrice, setFinalPrice] = useState(0)
 
   const handleRemoveFromCart = (cartItem) => {
     dispatch(removeFromCart(cartItem));
@@ -91,19 +104,46 @@ export function Checkout() {
     }, 0);
   };
 
+  const getCart = async () => {
+    let cart = []
+    await axios.post(`/api/cart/${1}`).then(response => {
+      cartItems = response.data
+    })
+    console.log(cartItems)
+    
+    for (let i = 0; i < cartItems.length; i++) {
+      const id = {id: cartItems[i].product_Id}
+      console.log(id)
+      await axios.post(`/api/cart/items`, id ).then(response => {
+        cart.push(response.data)
+        price += Number(response.data.price)
+
+        setFinalPrice(price.toFixed(2))
+      })
+    }
+    console.log(cart)
+
+    setMyCart(cart)
+    console.log(myCart)
+  }
+
   return (
     <div>
       <h1>Shopping Cart</h1>
-      <ul>
-        {cart.map((cartItem, index) => (
-          <li key={index}>
-            {cartItem.item_Name} - ${cartItem.price} x {cartItem.amount}
-            <button onClick={() => handleRemoveFromCart(cartItem)}>Remove</button>
-          </li>
-        ))}
-      </ul>
+      <button onClick={getCart}>show cart items</button>
+      { myCart.length > 1 &&
+        <ul>
+          {myCart.map((item) => (
+            <li>
+            {item.item_Name} - ${item.price}
+            </li>
+          ))}
+        </ul>
+      }
       <h2>Checkout</h2>
-      <p>Total: ${calculateTotal().toFixed(2)}</p>
+      { finalPrice > 0 &&
+        <p>Total: ${finalPrice}</p>
+      }
     </div>
   );
 }

@@ -1,51 +1,55 @@
-import { User, Item } from './model.js';
+import { User, Item, db } from './model.js';
 
-export async function seedDatabase() {
+await db.sync({ force: true})
+
+// export async function seedDatabase() {
 
   // Create a new Item 'Gumbo Tee' and assign it to variable gumboTee
-  const gumboTee = await Item.create({
+  await Item.create({
     item_Id: 1,
     item_Name: 'Gumbo Tee',
-    item_Description: 'Made from the finest wool...',
+    item_Definition: 'Made from the finest wool...',
     price: 19.99
   });
 
   // Create a new Item 'Gumbo Shorts' and assign it to variable gumboShorts
-  const gumboShorts = await Item.create({
+  await Item.create({
     item_Id: 2,
     item_Name: 'Gumbo Shorts',
-    item_Description: 'Made from the best materials...',
+    item_Definition: 'Made from the best materials...',
     price: 19.99
   });
 
   // Create a new Item 'Gumbo Hat' and assign it to variable gumboHat
-  const gumboHat = await Item.create({
+  await Item.create({
     item_Id: 3,
     item_Name: 'Gumbo Hat',
-    item_Description: 'This is the coolest hat...',
+    item_Definition: 'This is the coolest hat...',
     price: 19.99
   });
 
   // Create a new User 'Tyler Jerman' and assign it to variable tylerJ
-  const tylerJ = await User.create({
+  await User.create({
     user_Id: 1,
     username: 'tylerjerman',
     password: 'jylerterman'
   });
 
+  await db.close()
+
   // Find the User with user_Id of 1 and assign it to variable admin
-  const admin = await User.findOne({ user_Id: 1 });
+  // const admin = await User.findOne({ user_Id: 1 });
 
   // Return the created items and users
-  return { gumboTee, gumboHat, gumboShorts, tylerJ, admin };
-}
+//   return { gumboTee, gumboHat, gumboShorts, tylerJ, admin };
+// }
 
 // Call the seedDatabase function, and handle success and failure cases
-seedDatabase().then(results => {
-  console.log("Database seeded successfully"); // Log success message
-}).catch(error => {
-  console.error("Error seeding database:", error); // Log error message
-});
+// seedDatabase().then(results => {
+//   console.log("Database seeded successfully"); // Log success message
+// }).catch(error => {
+//   console.error("Error seeding database:", error); // Log error message
+// });
 
 // Exports
-export { gumboTee, gumboHat, gumboShorts, tylerJ, admin };
+// export { gumboTee, gumboHat, gumboShorts, tylerJ, admin };

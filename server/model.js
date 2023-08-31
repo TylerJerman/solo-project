@@ -6,8 +6,8 @@ import util from 'util';
 import bcrypt from 'bcrypt';
 
 // Fetching or setting a default Database URI
-const dbURI = process.env.DATABASE_URL || 'dbConnected';
-const db = await connectToDB(dbURI); // Establishing database connection
+// const dbURI = process.env.DATABASE_URL || 'dbConnected';
+export const db = await connectToDB('postgresql:///gumbo_db'); // Establishing database connection
 
 // Defining the User Model
 export class User extends Model {
@@ -58,15 +58,15 @@ Item.init({
     primaryKey: true,
   },
   item_Name: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.STRING(200),
     allowNull: false,
   },
   item_Definition: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.STRING(200),
     allowNull: false,
   },
   price: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.DECIMAL,
     allowNull: false,
   }
 }, {
@@ -85,6 +85,7 @@ export class Cart extends Model {
 Cart.init({
   cart_Id: {
     type: DataTypes.INTEGER,
+    autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
@@ -96,10 +97,6 @@ Cart.init({
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  amount: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  }
 }, {
   modelName: 'cart',
   sequelize: db,
@@ -119,4 +116,3 @@ if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
 }
 
 //exporting the models for other parts of the application
-export { Cart, Item, User };

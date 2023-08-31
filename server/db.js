@@ -1,15 +1,17 @@
 import { Sequelize } from 'sequelize';
 
-const dbURI = process.env.DATABASE_URL || 'postgresql://username:password@localhost:5432/gumbo_db';
+// const dbURI = process.env.DATABASE_URL || 'postgresql://username:password@localhost:5173/gumbo_db';
 
-export const db = new Sequelize(dbURI, {
-  logging: false,
-  define: {
-    timestamps: false,
-    underscored: true,
-  },
-  dialect: 'postgresql',
-});
+async function connectToDB(dbURI) {
+
+  const sequelize = new Sequelize(dbURI, {
+    logging: false,
+    define: {
+      timestamps: false,
+      underscored: true,
+    },
+    dialect: 'postgresql',
+  })
 
   // Try to authenticate (connect) to the database
   try {
@@ -23,8 +25,7 @@ export const db = new Sequelize(dbURI, {
 
   //return the initialized Sequelize instance for further use
   return sequelize;
-
-;
+}
 
 // Export the function so it can be used elsewhere in the project
 export default connectToDB;

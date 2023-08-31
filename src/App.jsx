@@ -21,13 +21,19 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/products" element={<Products />} />
       </Routes>
+      
+      <Login/>
+      
 
-      {showLogin && (
+      {/* {showLogin && (
         <div>
           <Login />
           <button onClick={() => setShowLogin(false)}>Close Login</button>
         </div>
       )}
+      { !showLogin &&
+        <button onClick={() => setShowLogin(true)}>Open Log In</button>
+      } */}
     </BrowserRouter>
   );
 }
