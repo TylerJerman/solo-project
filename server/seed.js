@@ -17,7 +17,7 @@ await db.sync({ force: true})
     item_Id: 2,
     item_Name: 'Gumbo Shorts',
     item_Definition: 'Made from the best materials...',
-    price: 19.99
+    price: 15.99
   });
 
   // Create a new Item 'Gumbo Hat' and assign it to variable gumboHat
@@ -25,7 +25,7 @@ await db.sync({ force: true})
     item_Id: 3,
     item_Name: 'Gumbo Hat',
     item_Definition: 'This is the coolest hat...',
-    price: 19.99
+    price: 10.99
   });
 
   // Create a new User 'Tyler Jerman' and assign it to variable tylerJ

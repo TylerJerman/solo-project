@@ -12,6 +12,10 @@ div {
   background-color: #d1d1d1;
 }
 
+div img {
+  width: 70px;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #000000;
@@ -41,7 +45,7 @@ body {
 } */
 
 button {
-  padding: 12px 24px;
+  padding: 12px;
   border-radius: 12px;
   border: none;
   background-color: #ffffff;
@@ -49,6 +53,8 @@ button {
   border-color: #000000;
   cursor: pointer;
   font-size: 16px;
+  font-style: italic;
+  text-shadow: #363636 1px 0.12px;
 }
 
 button:hover {
@@ -69,14 +75,21 @@ h1 {
 }
 
 ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
+  cursor: pointer;
+  font-size: 16px;
+  font-style: italic;
+  text-shadow: #363636 1px 0.12px;
 }
 
 ol button {
   margin-right: 1em;
+
 }
 
 .active-link {
@@ -84,15 +97,16 @@ ol button {
 }
 
 footer {
-  background-color: #d1d1d1;
+  background-color: #ffffff;
   border-color: #000000;
   color: white;
   border-width: 1em;
   text-align: center;
-  padding: 1em;
+  padding: 1%;
+  
   position: fixed;
   bottom: 0;
-  width: 75px;
+  width: 169px;
   border-radius: 12px;
 }
 
@@ -113,6 +127,8 @@ th {
 tr {
   align-content: center;
   text-align: center;
+  text-shadow: #ffffff 1px 1px 1px;
+  text-anchor: middle;
 }
 
 input {

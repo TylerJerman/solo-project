@@ -38,6 +38,7 @@ app.get('/api/products', async (req, res) => {
 
 app.post('/api/cart/items', async (req, res) => {
   const {id} = req.body
+  console.log("im trying")
   console.log(id)
   try {
     const cartItems = await  Item.findOne({ where: { item_Id: id}})
@@ -115,7 +116,7 @@ app.post('/api/users', express.json(), async (req, res) => {
 app.post('/api/cart', async (req, res) => {
   const { userId, productId } = req.body;
 
-  console.log("yeayuhhhhhhhhhh")
+  console.log('Yayuh')
   
   if (!userId || !productId) {
     return res.status(400).json({ error: 'Missing the needed fields.' });
@@ -131,19 +132,21 @@ app.post('/api/cart', async (req, res) => {
   });
   
   //this will remove an item from the cart
-  app.delete('/api/cart/:cartId', async (req, res) => {
-    const { cartId } = req.params;
-    
+  app.delete('/api/cart/clear/:userId', async (req, res) => {
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(400).json({ error: 'Missing userId.' });
+    }
     try {
-      await Cart.destroy({ where: { cartId } });
+      await Cart.destroy({ where: { user_Id: userId } });
       res.json({ success: true });
     } catch (error) {
-    console.error("Error removing cart item:", error);
-    res.status(500).json({ error: 'Failed to remove cart item.' });
-  }
-});
+      console.error("Error clearing cart:", error);
+      res.status(500).json({ error: 'Failed to clear cart.' });
+    }
+  });
 
-ViteExpress.listen(app, port, () => console.log('running on port ' + port))
+ViteExpress.listen(app, port, () => console.log(`Server running at http://localhost:${port}/`))
 //serving static files
 // app.use(express.static('public'));
 

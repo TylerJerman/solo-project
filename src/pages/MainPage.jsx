@@ -21,7 +21,7 @@ export function LoginComponent() {
     <div>
       <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
       <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogin}>Log In</button>
     </div>
   );
 }
@@ -53,14 +53,12 @@ export function Products() {
   return (
     <div>
       <h1>Product List</h1>
-      <th>
         {products.map((product) => (
-          <tr key={product.item_Id}>
-            {product.item_Name} - ${product.price}
-            <button onClick={() => addToCart(product.item_Id)}>add to cart</button>
-          </tr>
+          <ol key={product.item_Id}>
+            - {product.item_Name} - ${product.price} -
+            <button onClick={() => addToCart(product.item_Id)}>add to cart</button> -
+          </ol>
         ))}
-      </th>
     </div>
   );
 }
@@ -93,7 +91,8 @@ export function Checkout() {
   const [myCart, setMyCart] = useState([])
   let price = 0
   const [finalPrice, setFinalPrice] = useState(0)
-
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  
   const handleRemoveFromCart = (cartItem) => {
     dispatch(removeFromCart(cartItem));
   };
@@ -103,6 +102,19 @@ export function Checkout() {
       return acc + (cartItem.price * cartItem.amount);
     }, 0);
   };
+  
+  const clearCart = async () => {
+    const userId = 1; // Replace this with the actual logged-in user ID
+    try {
+      await axios.delete(`/api/cart/clear/${userId}`);
+      // Clear the cart state here
+      setMyCart([]);
+      setFinalPrice(0);
+    } catch (error) {
+      console.error("Error clearing cart:", error);
+    }
+  };
+
 
   const getCart = async () => {
     let cart = []
@@ -125,25 +137,35 @@ export function Checkout() {
 
     setMyCart(cart)
     console.log(myCart)
+    setIsCartOpen(true);
   }
+
+  const closeCart = () => {
+    setIsCartOpen(false);
+  };
 
   return (
     <div>
-      <h1>Shopping Cart</h1>
-      <button onClick={getCart}>show cart items</button>
-      { myCart.length > 1 &&
-        <th>
-          {myCart.map((item) => (
-            <tr>
-            {item.item_Name} - ${item.price}
-            </tr>
-          ))}
-        </th>
-      }
-      <h2>Checkout</h2>
-      { finalPrice > 0 &&
-        <p>Total: ${finalPrice}</p>
-      }
-    </div>
+  <h1>Shopping Cart</h1>
+  {isCartOpen ? (
+    <button onClick={closeCart}>Close Cart Items</button>
+  ) : (
+    <button onClick={getCart}>Show Cart Items</button>
+  )}
+    <button onClick={clearCart}>Clear Cart</button>
+
+  {isCartOpen && myCart.length > 1 && (
+    <span>
+      {myCart.map((item) => (
+        <ol key={item.product_Id}>
+          - {item.item_Name} - ${item.price} -
+        </ol>
+      ))}
+    </span>
+  )}
+
+  <h2>Checkout</h2>
+  {isCartOpen && finalPrice > 0 && <ol>Total: ${finalPrice}</ol>}
+</div>
   );
 }
