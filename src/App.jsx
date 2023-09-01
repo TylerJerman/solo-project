@@ -7,7 +7,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 function App() {
   const isLoggedIn = useSelector((state) => state.user);
-  const [showLogin, setShowLogin] = useState(true); // New state for the login
+  const [showLogin, setShowLogin] = useState(true);
 
   return (
     <BrowserRouter>

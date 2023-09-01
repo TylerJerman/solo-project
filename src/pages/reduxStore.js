@@ -27,9 +27,9 @@ const cartSlice = createSlice({
       );
 
       if (itemIndex >= 0) {
-        state[itemIndex].amount += 1;  // Increase the amount
+        state[itemIndex].amount += 1;  
       } else {
-        state.push({ ...action.payload, amount: 1 });  // Add the new item with amount 1
+        state.push({ ...action.payload, amount: 1 }); 
       }
     },
     removeFromCart: (state, action) => {
@@ -41,14 +41,14 @@ const cartSlice = createSlice({
       );
 
       if (itemIndex >= 0) {
-        state[itemIndex].amount -= 1;  // Decrease the amount
+        state[itemIndex].amount -= 1;
       }
     },
     clearCart: (state) => {
       return [];
     },
     setCart: (state, action) => {
-      return action.payload;  // sets the entire cart to new data
+      return action.payload;
     }
   },
 });
@@ -86,7 +86,7 @@ export const store = configureStore({
 });
 
 // Exporting user actions and selector
-export const { login, logout } = userSlice.actions; // export actions
+export const { login, logout } = userSlice.actions;
 export const selectUser = (state) => state.user.value;
 
 // Exporting cart actions and selector

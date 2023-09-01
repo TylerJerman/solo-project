@@ -104,10 +104,9 @@ export function Checkout() {
   };
   
   const clearCart = async () => {
-    const userId = 1; // Replace this with the actual logged-in user ID
+    const userId = 1;
     try {
       await axios.delete(`/api/cart/clear/${userId}`);
-      // Clear the cart state here
       setMyCart([]);
       setFinalPrice(0);
     } catch (error) {

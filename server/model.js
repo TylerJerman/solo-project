@@ -5,19 +5,16 @@ import url from 'url';
 import util from 'util';
 import bcrypt from 'bcrypt';
 
-// Fetching or setting a default Database URI
-// const dbURI = process.env.DATABASE_URL || 'dbConnected';
-export const db = await connectToDB('postgresql:///gumbo_db'); // Establishing database connection
+export const db = await connectToDB('postgresql:///gumbo_db');
 
 // Defining the User Model
 export class User extends Model {
-  // Custom utility for inspecting the object, helpful for debugging
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
-// Initializing the User Model with its schema
+// Init the User Model
 User.init({
   user_Id: {
     type: DataTypes.INTEGER,
@@ -50,7 +47,7 @@ export class Item extends Model {
   }
 }
 
-// Init the Item Model with its schema
+// Init the Item Model
 Item.init({
   item_Id: {
     type: DataTypes.INTEGER,
@@ -81,7 +78,7 @@ export class Cart extends Model {
   }
 }
 
-// Init the Cart Model with its schema
+// Init the Cart Model
 Cart.init({
   cart_Id: {
     type: DataTypes.INTEGER,
@@ -102,17 +99,13 @@ Cart.init({
   sequelize: db,
 });
 
-// Defining relationships between models
 User.hasMany(Cart, {foreignKey: 'user_Id'});
 Cart.belongsTo(User, {foreignKey: 'user_Id'});
 Item.hasMany(Cart, {foreignKey: 'product_Id'});
 Cart.belongsTo(Item, {foreignKey: 'product_Id'});
 
-// Syncing the models with the database if this module is the entry point
 if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Syncing the fetching Database...");
   await db.sync();
   console.log("Finished Syncing Database");
 }
-
-//exporting the models for other parts of the application

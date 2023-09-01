@@ -15,16 +15,6 @@ function Login() {
     const user = {username: username, password: password}
     const {data} = await axios.post('http://localhost:5173/api/login', user)
     setLoggedIn(true)
-    // try {
-    //   const response = await axios.post('/api/login', user);
-    //   if (response.data.success) {
-    //     dispatch(login(response.data.user));
-    //   } else {
-    //     setError(response.data.message || 'Login failed.');
-    //   }
-    // } catch (error) {
-    //   setError('An error occurred. Please try again.');
-    // }
   };
 
   return (
